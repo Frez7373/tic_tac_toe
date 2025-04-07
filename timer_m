@@ -1,0 +1,80 @@
+Start:
+[name of programm] [seconds]
+
+Format: *:**
+
+https://pastebin.com/d0mNz0vf
+
+-- CC Timer Made by MCWendiz NO HOURS --
+-- 2025 --
+
+local side = "left" --choose side of input
+local args = {...} --time
+local res = true -- u can pause by using redstoune on computer
+local monitors = { peripheral.find("monitor") } -- finding monitor
+
+-- u can fix if u want --
+
+function timer()
+for i = 1,2 do
+shell.run("redpulse back 1")
+end
+end
+
+if args[1] == nil or args[1] == "help" then
+print("timer <time>") -- if u made mistakes
+return
+else
+
+local delay = tonumber(args[1]) --fix troubles with understanding int`s
+args[1] = tonumber(args[1])
+args[2] = 0
+
+while res == true do
+if not rs.getInput("top") then
+    if args[1]>59 then                            --this for making understandable time
+        args[2] = math.floor(args[1] / 60)
+        args[1] = args[1] - (args[2]*60)
+    end
+    if args[1] == 0 and args[2]>0 then
+        args[2] = args[2]-1
+        args[1] = 59
+    end
+    for _, monitor in pairs(monitors) do        --writtind on all monitors u have connecting
+        monitor.clear()
+        monitor.setTextScale(5)
+        monitor.setCursorPos(5,3)
+        monitor.setTextColor(colors.white)
+        monitor.write(args[2] ..":")
+        if args[1]<10 then
+            monitor.write(0)
+            monitor.write(args[1])
+        else
+            monitor.write(args[1])
+        end
+  end
+    term.clear()                                --for watching in terminal how many seconds to next minut left
+    term.setCursorPos(1,1)
+    print(args[1])
+    if args[1] == 0 and arg[2] == 0 then
+        res = false
+    end
+    args[1] = args[1]-1
+    sleep(1)  -- this is the args[1]
+end
+if rs.getInput("top") then            --pausing
+    monitor.clear()
+    monitor.setTextScale(1)
+    monitor.setCursorPos(1,1)
+    monitor.setTextColor(colors.red)
+    monitor.write("OFF")
+    monitor.setCursorPos(1,2)
+    monitor.write("pause")
+    term.clear()
+    term.setCursorPos(1,1)
+    print(" I HAVE PAUSED THE PROGRAM SIR!!")
+    shell.run("ls")
+    sleep(3)
+end
+end
+end
